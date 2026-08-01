@@ -1,0 +1,107 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Search, Users, Shield, Link2, MapPin, Bell, ArrowRight, Heart, AlertCircle } from 'lucide-react';
+import { api } from '../lib/api';
+import { MissingPerson } from '../types';
+
+const features = [
+  { icon: Link2, title: 'Photo Matching', desc: 'Compare photos of missing and found persons to surface potential matches.', color: 'bg-blue-100 text-blue-600' },
+  { icon: Users, title: 'Four User Roles', desc: 'Dedicated portals for Family, Citizen, Police, and Admin.', color: 'bg-green-100 text-green-600' },
+  { icon: MapPin, title: 'India Location Database', desc: 'Dynamic hierarchy from Country to City coverage.', color: 'bg-amber-100 text-amber-600' },
+  { icon: Shield, title: 'Police Verification', desc: 'Admin approval workflow for police accounts.', color: 'bg-red-100 text-red-600' },
+  { icon: Bell, title: 'Notifications', desc: 'Real-time alerts for matches and updates.', color: 'bg-slate-100 text-slate-600' },
+  { icon: Search, title: 'Public Search', desc: 'Browse missing and found person records.', color: 'bg-teal-100 text-teal-600' },
+];
+
+export default function HomePage() {
+  const [stats, setStats] = useState({ missing: 0, found: 0, reunited: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await api.getStats();
+        setStats({ missing: data.activeMissing || 0, found: data.foundPersons || 0, reunited: data.reunited || 0 });
+      } catch (err) { console.error(err); }
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) return <div className="flex justify-center py-20"><span>Loading...</span></div>;
+
+  return (
+    <div>
+      <section className="relative overflow-hidden bg-blue-700">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+          <div className="text-center">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight max-w-3xl mx-auto leading-tight">
+              Reuniting Families, One Report at a Time
+            </h1>
+            <p className="mt-6 text-lg text-blue-100 max-w-2xl mx-auto leading-relaxed">
+              FindLink connects families, citizens, and law enforcement to help locate missing persons and verify found individuals.
+            </p>
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link to="/auth?mode=signup&role=family" className="btn bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 text-base shadow-lg">
+                Report a Missing Person <ArrowRight size={18} />
+              </Link>
+              <Link to="/auth?mode=signup&role=citizen" className="btn bg-blue-600 text-white border border-blue-500 hover:bg-blue-800 px-6 py-3 text-base">
+                Report a Found Person
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white border-b border-gray-200">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-amber-100 mx-auto mb-3"><AlertCircle size={24} className="text-amber-600" /></div>
+              <p className="text-3xl font-bold text-gray-900">{stats.missing}</p>
+              <p className="text-sm text-gray-500 mt-1">Active Missing Cases</p>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-100 mx-auto mb-3"><Users size={24} className="text-blue-600" /></div>
+              <p className="text-3xl font-bold text-gray-900">{stats.found}</p>
+              <p className="text-sm text-gray-500 mt-1">Found Persons</p>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-green-100 mx-auto mb-3"><Heart size={24} className="text-green-600" /></div>
+              <p className="text-3xl font-bold text-gray-900">{stats.reunited}</p>
+              <p className="text-sm text-gray-500 mt-1">Reunited</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">How FindLink Works</h2>
+            <p className="mt-3 text-gray-500 max-w-2xl mx-auto">A comprehensive platform connecting families, citizens, and law enforcement</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((f) => (
+              <div key={f.title} className="card p-6 hover:shadow-md transition-shadow">
+                <div className={'flex items-center justify-center w-12 h-12 rounded-xl ' + f.color + ' mb-4'}><f.icon size={24} /></div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{f.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-blue-700 py-16">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-white">Join the FindLink Community</h2>
+          <p className="mt-3 text-blue-100">Every report counts. Every share matters. Every reunion is a victory.</p>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/auth?mode=signup" className="btn bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 text-base shadow-lg">Create an Account</Link>
+            <Link to="/about" className="btn bg-blue-600 text-white border border-blue-500 hover:bg-blue-800 px-6 py-3 text-base">Learn More</Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

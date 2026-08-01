@@ -1,0 +1,33 @@
+Embedding JSON length: 5809 chars
+Calling addToIndex() through faceMatching.js (uses temp @file)...
+
+======================
+COMMAND
+======================
+C:/Users/vinit/AppData/Local/Programs/Python/Python312/python.exe --add verify-add-person-1785606119343 @C:\Users\vinit\AppData\Local\Temp\findlink-18280-1785606119379-z3smao7zbom.json Verify Add Person
+
+======================
+EXIT CODE
+======================
+0
+
+======================
+STDOUT
+======================
+{"added_count": 1, "total_vectors": 3}
+
+
+======================
+STDERR
+======================
+[AI] Detector initialized
+[AI] Model initialized: insightface/buffalo_l (dim=512)
+[AI] FAISS index loaded: 2 vectors, 2 persons
+
+
+
+=== SUCCESS ===
+added_count : 1
+total_vectors: 3
+
+Γ£à --add path completed successfully (no ENAMETOOLONG).

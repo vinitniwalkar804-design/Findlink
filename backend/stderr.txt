@@ -1,0 +1,3 @@
+[AI] Detector initialized
+[AI] Model initialized: insightface/buffalo_l (dim=512)
+[AI] FAISS index loaded: 0 vectors, 0 persons

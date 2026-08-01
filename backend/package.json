@@ -1,0 +1,21 @@
+{
+  "name": "findlink-backend",
+  "version": "1.0.0",
+  "description": "FindLink Backend API with MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.5.2",
+    "multer": "^2.2.0",
+    "sharp": "^0.35.3"
+  }
+}
